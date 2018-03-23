@@ -9,7 +9,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="113dp"
+        android:layout_marginTop="133dp"
         android:enabled="false"
         android:text="STOP Receiving data" />
 
@@ -35,6 +35,6 @@
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_alignStart="@+id/btn_stop_receiving"
-        android:layout_marginTop="50dp"
+        android:layout_marginTop="80dp"
         android:text="START Receiving data" />
 </RelativeLayout>

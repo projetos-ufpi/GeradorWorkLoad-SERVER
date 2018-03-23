@@ -30,6 +30,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private TextView textViewDataFromClient;
     private boolean end = false;
 
+
+    private String stringData = null;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -60,7 +63,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         Thread thread = new Thread(new Runnable() {
 
-            private String stringData = null;
+
 
             @Override
             public void run() {
@@ -69,7 +72,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
                     ServerSocket ss = new ServerSocket(9002);
 
-                    while (!end) {
+                    while (true) {
                         //Server is waiting for client here, if needed
                         Socket s = ss.accept();
                         BufferedReader input = new BufferedReader(new InputStreamReader(s.getInputStream()));
@@ -78,21 +81,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         stringData = input.readLine();
                         output.println("FROM SERVER - " + stringData.toUpperCase());
                         output.flush();
-                        if (stringData.equalsIgnoreCase("a")){
 
-                            new Thread(new Runnable() {
-                                @Override
-                                public void run() {
-                                    Toast.makeText(MainActivity.this, "Gera Carga 01!", Toast.LENGTH_SHORT).show();
-                                }
-                            }).start();
-
-                        }else if (stringData.equalsIgnoreCase("b")){
-                            Toast.makeText(MainActivity.this, "Gerar Carga 02", Toast.LENGTH_SHORT).show();
-                        }else if (stringData.equalsIgnoreCase("c")){
-                            Toast.makeText(MainActivity.this, "Gerar Carga 03", Toast.LENGTH_SHORT).show();
+                        if (stringData.equalsIgnoreCase("a")) {
+                            geraCarga01();
                         }
-
 
 
                         try {
@@ -123,7 +115,19 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
 
     private void geraCarga01(){
-        Toast.makeText(this, "Gera Carga 01", Toast.LENGTH_SHORT).show();
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                System.out.println("Teste");
+                System.out.println("\nTestando saída no resultado!");
+                AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+                builder.setTitle("teste")
+                        .setMessage("Testando possibilidades")
+                        .setPositiveButton("aaaa", null);
+                AlertDialog alert = builder.create();
+                alert.show();
+            }
+        }).start();
     }
 
     private void updateUI(final String stringData) {
@@ -134,7 +138,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
                 String s = textViewDataFromClient.getText().toString();
                 if (stringData.trim().length() != 0)
-                    textViewDataFromClient.setText(s + "\n" + "From Client : " + stringData);
+                    textViewDataFromClient.setText(s + "\n" + "Enviado por Client: " + stringData);
             }
         });
     }
