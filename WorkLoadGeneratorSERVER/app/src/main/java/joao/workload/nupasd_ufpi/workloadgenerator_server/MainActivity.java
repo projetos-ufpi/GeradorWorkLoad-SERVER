@@ -177,7 +177,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     double tempo1 = 0, tempo2 = 0;
                     //LinkedList<String> linhas = new LinkedList<String>();
                     tempo1 = System.currentTimeMillis();
-                    while((linha = bufferedReader.readLine())!=null){
+                    while((linha = bufferedReader.readLine()) !=null){
                         //aqui com o valor da linha vc pode testar o que quiser, por exemplo: linha.equals("123")
                         quant1 += linha.length();
                     }
@@ -185,7 +185,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
                     android.app.AlertDialog alert;
                     android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(MainActivity.this);
-                    builder.setTitle("Quantidade de Caracteres - Carga 01");
+                    builder.setTitle("Quantidade de Caracteres - Carga "+scan);
                     builder.setMessage("A quantidade de caracteres: "+quant1+"\nTempo total de leitura: "+ ((tempo2/1000) - (tempo1/1000)) +"segundos");
                     builder.setPositiveButton("Ok", null);
                     alert = builder.create();
