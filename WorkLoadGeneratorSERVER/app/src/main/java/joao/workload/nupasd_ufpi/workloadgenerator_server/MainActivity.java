@@ -1,6 +1,7 @@
 package joao.workload.nupasd_ufpi.workloadgenerator_server;
 
 import android.content.pm.PackageManager;
+import android.content.res.AssetManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
@@ -14,6 +15,7 @@ import android.widget.Toast;
 
 import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.ServerSocket;
@@ -82,9 +84,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         output.println("FROM SERVER - " + stringData.toUpperCase());
                         output.flush();
 
-                        if (stringData.equalsIgnoreCase("a")) {
-                            geraCarga01();
-                        }
+                        //if (stringData.equalsIgnoreCase("a")) {
+                            geraCarga(stringData);
+                        //}
 
 
                         try {
@@ -114,7 +116,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
 
-    private void geraCarga01(){
+    private void geraCarga(final String scan){//A variável scan serve para transporta o valor enviado pelo cliente
+        /*
         new Thread(new Runnable() {
             @Override
             public void run() {
@@ -128,6 +131,78 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 alert.show();
             }
         }).start();
+        */
+        handler.post(new Runnable() {
+            @Override
+            public void run() {
+//
+                try {
+                    AssetManager assetManager = getResources().getAssets();
+                    InputStream inputStream = null;
+
+                    if (scan.equalsIgnoreCase("100")){
+                        inputStream = assetManager.open("100_words.txt");
+                    }else if (scan.equalsIgnoreCase("1000")){
+                        inputStream = assetManager.open("1000_words.txt");
+                    }else if (scan.equalsIgnoreCase("10k")){
+                        inputStream = assetManager.open("10k_words.txt");
+                    }else if (scan.equalsIgnoreCase("100k")){
+                        inputStream = assetManager.open("100k_words.txt");
+                    }else if (scan.equalsIgnoreCase("500k")){
+                        inputStream = assetManager.open("500k_words.txt");
+                    }else if (scan.equalsIgnoreCase("1m")) {
+                        inputStream = assetManager.open("1M_words.txt");
+                    }else if (scan.equalsIgnoreCase("2m")) {
+                        inputStream = assetManager.open("2M_words.txt");
+                    }else if (scan.equalsIgnoreCase("4m")) {
+                        inputStream = assetManager.open("4M_words.txt");
+                    }else if (scan.equalsIgnoreCase("5m")) {
+                        inputStream = assetManager.open("5M_words.txt");
+                    }else if (scan.equalsIgnoreCase("8m")) {
+                        inputStream = assetManager.open("8M_words.txt");
+                    }else if (scan.equalsIgnoreCase("10m")) {
+                        inputStream = assetManager.open("10M_words.txt");
+                    }else if (scan.equalsIgnoreCase("15m")) {
+                        inputStream = assetManager.open("15M_words.txt");
+                    }else if (scan.equalsIgnoreCase("20m")) {
+                        inputStream = assetManager.open("20M_words.txt");
+                    }
+
+
+
+                    InputStreamReader inputStreamReader = new InputStreamReader(inputStream);
+                    BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
+                    String linha;
+                    int quant1 = 0;
+                    double tempo1 = 0, tempo2 = 0;
+                    //LinkedList<String> linhas = new LinkedList<String>();
+                    tempo1 = System.currentTimeMillis();
+                    while((linha = bufferedReader.readLine())!=null){
+                        //aqui com o valor da linha vc pode testar o que quiser, por exemplo: linha.equals("123")
+                        quant1 += linha.length();
+                    }
+                    tempo2 = System.currentTimeMillis();
+
+                    android.app.AlertDialog alert;
+                    android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(MainActivity.this);
+                    builder.setTitle("Quantidade de Caracteres - Carga 01");
+                    builder.setMessage("A quantidade de caracteres: "+quant1+"\nTempo total de leitura: "+ ((tempo2/1000) - (tempo1/1000)) +"segundos");
+                    builder.setPositiveButton("Ok", null);
+                    alert = builder.create();
+                    alert.show();
+                    System.out.println("Quantidade: "+quant1);
+                    System.out.println("\nTempo de leitura: "+ ((tempo2/1000) - (tempo1/1000))+" segundos");
+
+
+                    inputStream.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+
+
+            }
+        });
+
     }
 
     private void updateUI(final String stringData) {
